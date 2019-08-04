@@ -1,0 +1,11 @@
+[Unit]
+Description=Organize photo files, received from Syncthing or other syncing tools
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Type=simple
+EnvironmentFile=/home/%u/.config/photocatalog
+ExecStart=photocatalog -mode $MODE -target $TARGET -monitor $MONITOR
+ExecStartPre=photocatalog -mode $MODE -target $TARGET ${MONITOR}
