@@ -12,7 +12,7 @@ import (
 
 	"github.com/fsnotify/fsnotify"
 
-	"photocatalog/pkg/core"
+	"github.com/derfenix/photocatalog/pkg/core"
 )
 
 func main() {

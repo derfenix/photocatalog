@@ -10,7 +10,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	"photocatalog/pkg/metadata"
+	"github.com/derfenix/photocatalog/pkg/metadata"
 )
 
 type Manager struct {
