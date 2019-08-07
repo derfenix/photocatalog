@@ -1,4 +1,4 @@
-package core
+package manager
 
 //go:generate stringer -type ManageMode
 

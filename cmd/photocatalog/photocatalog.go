@@ -12,7 +12,7 @@ import (
 
 	"github.com/fsnotify/fsnotify"
 
-	"github.com/derfenix/photocatalog/pkg/core"
+	"github.com/derfenix/photocatalog/pkg/manager"
 )
 
 func main() {
@@ -24,29 +24,29 @@ func main() {
 	args := flag.Args()
 	log.Println("Using", *target, "as target and", *mode, "as mode")
 
-	var manageMode core.ManageMode
+	var manageMode manager.ManageMode
 	switch *mode {
 	case "copy":
-		manageMode = core.Copy
+		manageMode = manager.Copy
 	case "hardlink":
-		manageMode = core.Hardlink
+		manageMode = manager.Hardlink
 	default:
 		log.Fatalf("Invalid mode %s", *mode)
 	}
 
-	manager, err := core.NewManager(*target, manageMode)
+	mgr, err := manager.NewManager(*target, manageMode)
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
 
 	if *monitor == "" {
-		processFiles(args, manager)
+		processFiles(args, mgr)
 	} else {
-		startMonitoring(*monitor, manager)
+		startMonitoring(*monitor, mgr)
 	}
 }
 
-func processFiles(args []string, manager *core.Manager) {
+func processFiles(args []string, manager *manager.Manager) {
 	var manageErr error
 	var gotErrors bool
 
@@ -77,7 +77,7 @@ func processFiles(args []string, manager *core.Manager) {
 	}
 }
 
-func startMonitoring(monitor string, manager *core.Manager) {
+func startMonitoring(monitor string, manager *manager.Manager) {
 	var manageErr error
 
 	if !path.IsAbs(monitor) {
@@ -120,8 +120,8 @@ func startMonitoring(monitor string, manager *core.Manager) {
 						log.Println(manageErr)
 					}
 				}
-			case err, ok := <-watcher.Errors:
-				log.Println("error:", err)
+			case wErr, ok := <-watcher.Errors:
+				log.Println("error:", wErr)
 				if !ok {
 					return
 				}
