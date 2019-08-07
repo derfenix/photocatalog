@@ -12,8 +12,8 @@ from pc will be cleaned too. I need to not forget copy files in another
 place before cleaning phone's memory. Also, I can't  just drop all photos in 
 one dir - I will not find anything there later, and a folder with thousands 
 photos looks like a bad idea from either side.    
-So I create this tool in one evening. All it does - copy (or create hardlinks)
-for files from one place to another, creating basic date-aware directories
+So I create this tool in one evening. All it does - copy (or create hardlinks for)
+files from one place to another, creating basic date-aware directories
 structure for that files.
 
 
@@ -33,7 +33,8 @@ files but with names matching pattern `yyymmdd_HHMMSS.ext`. Such
 names format applied by android's camera software (I guess all cams 
 use this format, fix me if I'm wrong).
 
-There is not support for changing supported naming format without modifying  source code.
+There is no support for changing names format without modifying  source code 
+at this time.
 
 ## Usage
 ### One-shot 
