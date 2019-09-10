@@ -19,6 +19,7 @@ func main() {
 	mode := flag.String("mode", "hardlink", "Manage mode: copy or hardlink")
 	target := flag.String("target", "./", "Root directory to organize files in")
 	monitor := flag.String("monitor", "", "Monitor specified folder for new files")
+	updateMtime := flag.Bool("update_mtime", false, "Update mtime on organized files to be equal to the files creation date")
 
 	flag.Parse()
 	args := flag.Args()
@@ -34,7 +35,7 @@ func main() {
 		log.Fatalf("Invalid mode %s", *mode)
 	}
 
-	mgr, err := manager.NewManager(*target, manageMode)
+	mgr, err := manager.NewManager(*target, manageMode, *updateMtime)
 	if err != nil {
 		log.Fatalf(err.Error())
 	}

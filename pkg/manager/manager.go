@@ -7,6 +7,7 @@ import (
 	"os/exec"
 	"path"
 	"strings"
+	"time"
 
 	"github.com/pkg/errors"
 
@@ -14,18 +15,20 @@ import (
 )
 
 type Manager struct {
-	TargetPath string
-	Mode       ManageMode
+	TargetPath  string
+	Mode        ManageMode
+	updateMtime bool
 
 	processor       func(fp, targetDir string) (string, error)
 	extractorsCache map[string]metadata.Extractor
 }
 
-func NewManager(target string, mode ManageMode) (*Manager, error) {
+func NewManager(target string, mode ManageMode, updateMtime bool) (*Manager, error) {
 	manager := Manager{
-		TargetPath: target,
-		Mode:       mode,
-		processor:  nil,
+		TargetPath:  target,
+		Mode:        mode,
+		processor:   nil,
+		updateMtime: updateMtime,
 	}
 	if err := manager.initProcessor(); err != nil {
 		return nil, err
@@ -121,6 +124,13 @@ func (m *Manager) Manage(fp string) error {
 	target, err := m.processor(fp, targetDir)
 	if err != nil {
 		return errors.WithMessagef(err, "failed to process %s to %s", fp, targetDir)
+	}
+
+	if m.updateMtime {
+		err = os.Chtimes(target, time.Now(), md.Time)
+		if err != nil {
+			return errors.WithMessage(err, "failed to update mtime/atime")
+		}
 	}
 
 	if m.Mode == Hardlink {

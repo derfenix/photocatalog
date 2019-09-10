@@ -55,7 +55,7 @@ photocalog -target ./photos/ ./sync/photos/*
 ### Monitor
 #### Copy files (make a COW if fs supports it)
 ```bash
-photocalog -mode copy -target ./photos/ ./sync/photos/*
+photocalog -mode copy -target ./photos -monitor ./sync/photos/*
 ```
 
 #### Create hardlinks (only withing one disk partition)
