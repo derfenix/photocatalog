@@ -19,7 +19,7 @@ structure for that files.
 
 ## Installing
 ```bash
-go install github.com/derfenix/photocatalog
+go install github.com/derfenix/photocatalog/cmd/photocatalog@latest
 ```
 Optionally you could copy created binary from the GO's bin path to 
 system or user $PATH, e.g. /usr/local/bin/.
