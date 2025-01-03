@@ -1,6 +1,6 @@
 module github.com/derfenix/photocatalog
 
-go 1.12
+go 1.22
 
 require (
 	github.com/fsnotify/fsnotify v1.4.7
