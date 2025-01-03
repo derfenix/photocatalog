@@ -19,7 +19,7 @@ structure for that files.
 
 ## Installing
 ```bash
-go install github.com/derfenix/photocatalog@latest
+go install github.com/derfenix/photocatalog/v2@latest
 ```
 Optionally you could copy created binary from the GO's bin path to 
 system or user $PATH, e.g. /usr/local/bin/.
@@ -27,44 +27,48 @@ system or user $PATH, e.g. /usr/local/bin/.
 sudo cp ${GOPATH}/bin/photocatalog /usr/local/bin/photocatalog
 ```
 
+## Migrating from v0.*
+
+TODO 
+
 ## Supported formats
 At this moment supported jpeg files with filled exif data or any other 
 files but with names matching pattern `yyymmdd_HHMMSS.ext`. Such 
 names format applied by android's camera software (I guess all cams 
 use this format, fix me if I'm wrong).
 
-There is no support for changing names format without modifying  source code 
+There is no support for changing names format without modifying source code 
 at this time.
 
 ## Usage
 ### One-shot 
 #### Copy files (make a COW if fs supports it)
 ```bash
-photocalog -mode copy -target ./photos/ ./sync/photos/*
+photocalog -mode copy -target ./photos/ -source ./sync/photos/
 ```
 
 #### Create hardlinks (only withing one disk partition)
 ```bash
-photocalog -mode hardlink -target ./photos/ ./sync/photos/*
+photocalog -mode hardlink -target ./photos/ -source ./sync/photos/
 ```
 or 
 ```bash
-photocalog -target ./photos/ ./sync/photos/*
+photocalog -target ./photos/ -source ./sync/photos/*
 ```
 
-### Monitor
+### Watch mode
 #### Copy files (make a COW if fs supports it)
 ```bash
-photocalog -mode copy -target ./photos -monitor ./sync/photos/*
+photocalog -mode copy -target ./photos -watch -source ./sync/photos/
 ```
 
 #### Create hardlinks (only withing one disk partition)
 ```bash
-photocalog -mode hardlink -target ./photos/ -monitor ./sync/photos/
+photocalog -mode hardlink -target ./photos/ -watch -source ./sync/photos/
 ```
 or 
 ```bash
-photocalog -target ./photos/ -monitor ./sync/photos/
+photocalog -target ./photos/ -watch -source ./sync/photos/
 ```
 
 ## Install and run monitor service
@@ -89,6 +93,6 @@ under corresponding sub-dir.
 
 ### Why this tool was created if there is awesome XXX tool?
 I had two good reasons:
-1. I wanted
+1. I wish
 2. I can
 

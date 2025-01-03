@@ -268,6 +268,7 @@ func (o *Organizer) BuildTargetPath(sourcePath string, meta metadata.Metadata) (
 		o.targetDir,
 		strconv.Itoa(meta.Created.Year()),
 		strconv.Itoa(int(meta.Created.Month())),
+		strconv.Itoa(meta.Created.Day()),
 		sourcePath,
 	)
 
