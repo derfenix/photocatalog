@@ -33,7 +33,7 @@ func (c *Config) Validate() error {
 		return fmt.Errorf("target dir is required")
 	}
 
-	if !slices.Contains([]Mode{ModeHardlink, ModeSymlink, ModeMove, ModeSymlink}, c.Mode) {
+	if !slices.Contains([]Mode{ModeHardlink, ModeSymlink, ModeMove, ModeCopy}, c.Mode) {
 		return fmt.Errorf("invalid mode %s", c.Mode)
 	}
 

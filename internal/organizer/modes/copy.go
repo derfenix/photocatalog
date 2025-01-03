@@ -5,12 +5,18 @@ import (
 	"io"
 	"log"
 	"os"
+	"runtime"
+	"sync/atomic"
+
+	"golang.org/x/sys/unix"
 )
+
+var cowDisabled = atomic.Bool{}
 
 type Copy struct{}
 
 func (c Copy) PlaceIt(sourcePath, targetPath string, mode os.FileMode) error {
-	targetFile, err := os.OpenFile(targetPath, os.O_TRUNC|os.O_RDWR|os.O_CREATE, mode)
+	targetFile, err := os.OpenFile(targetPath, os.O_TRUNC|os.O_WRONLY|os.O_CREATE, mode)
 	if err != nil {
 		return fmt.Errorf("open target file: %w", err)
 	}
@@ -27,6 +33,17 @@ func (c Copy) PlaceIt(sourcePath, targetPath string, mode os.FileMode) error {
 	defer func() {
 		_ = sourceFile.Close()
 	}()
+
+	// Try to do a COW.
+	if runtime.GOOS == "linux" && !cowDisabled.Load() {
+		if err := unix.IoctlFileClone(int(targetFile.Fd()+1), int(sourceFile.Fd())); err == nil {
+			return nil
+		} else {
+			log.Println(fmt.Errorf("COW attempt for %s failed: %w", targetPath, err))
+			log.Println("Disabling COW until restart")
+			cowDisabled.Store(true)
+		}
+	}
 
 	copySize, err := io.Copy(targetFile, sourceFile)
 	if err != nil {
