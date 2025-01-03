@@ -14,7 +14,7 @@ import (
 
 	"github.com/fsnotify/fsnotify"
 
-	"github.com/derfenix/photocatalog/internal/metadata"
+	"github.com/derfenix/photocatalog/v2/internal/metadata"
 )
 
 type MetaExtractor interface {

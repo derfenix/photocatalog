@@ -7,8 +7,8 @@ import (
 	"os"
 	"sync"
 
-	"github.com/derfenix/photocatalog/internal/organizer"
-	"github.com/derfenix/photocatalog/internal/organizer/modes"
+	"github.com/derfenix/photocatalog/v2/internal/organizer"
+	"github.com/derfenix/photocatalog/v2/internal/organizer/modes"
 )
 
 type Application struct {

@@ -9,7 +9,7 @@ import (
 	"sync"
 	"syscall"
 
-	"github.com/derfenix/photocatalog/application"
+	"github.com/derfenix/photocatalog/v2/application"
 )
 
 func main() {

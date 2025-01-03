@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	. "github.com/derfenix/photocatalog/internal/organizer/modes"
+	. "github.com/derfenix/photocatalog/v2/internal/organizer/modes"
 )
 
 func TestSymLink_PlaceIt(t *testing.T) {

@@ -1,10 +1,10 @@
-module github.com/derfenix/photocatalog
+module github.com/derfenix/photocatalog/v2
 
 go 1.22
 
 require (
-	github.com/fsnotify/fsnotify v1.4.7
-	github.com/pkg/errors v0.8.1
+	github.com/fsnotify/fsnotify v1.8.0
 	github.com/rwcarlsen/goexif v0.0.0-20190401172101-9e8deecbddbd
-	golang.org/x/sys v0.0.0-20190804053845-51ab0e2deafa // indirect
 )
+
+require golang.org/x/sys v0.28.0 // indirect

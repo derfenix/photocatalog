@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	. "github.com/derfenix/photocatalog/internal/metadata"
+	. "github.com/derfenix/photocatalog/v2/internal/metadata"
 )
 
 func TestDefault_Extract(t *testing.T) {
