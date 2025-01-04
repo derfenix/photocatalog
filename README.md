@@ -8,7 +8,7 @@ A simple tool to organize your photos, videos, or other files by copying or hard
 
 I use a smartphone and Syncthing to automatically sync my photos to my PC. However, if I clean up my phone's memory, the synced photos on my PC are deleted as well. To avoid this, I needed a solution to back up and organize my photos without manual effort.
 
-Dumping everything into one folder wasn't an option—finding anything later would be a nightmare. So, I built this tool in one evening to solve the problem. It has worked flawlessly for me and might help you too. If you encounter any issues, feel free to open a ticket—I'll do my best to assist.
+Dumping everything into one folder wasn't an option — finding anything later would be a nightmare. So, I built this tool in one evening to solve the problem. It has worked flawlessly for me and might help you too. If you encounter any issues, feel free to open a ticket — I'll do my best to assist.
 
 ## Installation
 
@@ -47,12 +47,12 @@ Currently, the timestamp format is not customizable. Let me know if support for 
 ### One-Time Run
 
 #### Copy Files
-```bash
+```shell
 photocatalog -mode copy -target ./photos/ -source ./sync/photos/
 ```
 
 #### Create Hardlinks
-```bash
+```shell
 photocatalog -mode hardlink -target ./photos/ -source ./sync/photos/
 ```
 
@@ -61,12 +61,12 @@ photocatalog -mode hardlink -target ./photos/ -source ./sync/photos/
 Enable continuous monitoring of a source directory:
 
 #### Copy Files
-```bash
+```shell
 photocatalog -mode copy -target ./photos -watch -source ./sync/photos/
 ```
 
 #### Create Hardlinks
-```bash
+```shell
 photocatalog -mode hardlink -target ./photos/ -watch -source ./sync/photos/
 ```
 
@@ -75,7 +75,7 @@ photocatalog -mode hardlink -target ./photos/ -watch -source ./sync/photos/
 ### Systemd Setup
 
 Install and configure the service:
-```bash
+```shell
 sh ./init/install_service.sh systemd
 ```
 
@@ -86,7 +86,7 @@ This will:
 3. Open the config file for editing.
 
 Enable and start the service:
-```bash
+```shell
 systemctl --user enable --now photocatalog
 ```
 
