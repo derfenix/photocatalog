@@ -1,111 +1,100 @@
-[![Go](https://github.com/derfenix/photocatalog/actions/workflows/go.yml/badge.svg)](https://github.com/derfenix/photocatalog/actions/workflows/go.yml)
-
 # Effortless Photo Organizer
 
-Just copy/hardlink photos (or video, or any other files) from one place to
-another, separating them in sub-directories like `$ROOT/year/month/day/`.
+[![Go](https://github.com/derfenix/photocatalog/actions/workflows/go.yml/badge.svg)](https://github.com/derfenix/photocatalog/actions/workflows/go.yml)
 
-### TL;DR 
+A simple tool to organize your photos, videos, or other files by copying or hardlinking them into a date-based directory structure like `$ROOT/year/month/day/`.
 
-I use a smartphone along with Syncthing to seamlessly sync all my photos to my PC without any manual effort. However, there's a catch: I can't keep all my photos in the synced folder indefinitely. If I clear my phone's memory, the photos on my PC get deleted as well. To avoid this, I need to remember to copy the files to another location before cleaning up my phone.
+## TL;DR
 
-Simply dumping all my photos into one folder isn't a solution either — finding anything later would be a nightmare, and a folder with thousands of unsorted photos is far from ideal.
+I use a smartphone and Syncthing to automatically sync my photos to my PC. However, if I clean up my phone's memory, the synced photos on my PC are deleted as well. To avoid this, I needed a solution to back up and organize my photos without manual effort.
 
-To address these issues, I created this tool in just one evening. Its primary purpose is to copy (or create hardlinks for) files from one location to another, while organizing them into a simple, date-based directory structure.
+Dumping everything into one folder wasn't an option—finding anything later would be a nightmare. So, I built this tool in one evening to solve the problem. It has worked flawlessly for me and might help you too. If you encounter any issues, feel free to open a ticket—I'll do my best to assist.
 
-This tool was built for personal use and has been serving me well for quite some time without any problems. However, if you encounter any issues, feel free to report them — I’d be happy to help.
+## Installation
 
-## Installing
+Install the tool via `go`:
+
 ```bash
 go install github.com/derfenix/photocatalog/v2@latest
 ```
-Optionally you could copy created binary from the GO's bin path to 
-system or user $PATH, e.g. /usr/local/bin/.
+
+Optionally, copy the binary to a directory in your system or user's `$PATH` (e.g., `/usr/local/bin`):
+
 ```bash
 sudo cp ${GOPATH}/bin/photocatalog /usr/local/bin/photocatalog
 ```
 
-## Migrating from v0.*
+## Organization Modes
 
-TODO 
+The tool supports the following organization modes:
 
-## Organization modes
+- **copy** — Copies files to the target directory. If the filesystem supports it, uses Copy-on-Write (COW) for efficiency.
+- **hardlink** — Creates hardlinks to the source files, saving disk space. Ideal if the source and target are on the same partition, though file permissions remain linked to the original.
+- **move** — Moves files from the source to the target directory.
+- **symlink** — Creates symbolic links at the target pointing to the source files.
 
-Next organization modes supported:
-    
-- **copy** — copy files to target root. Make COW (using syscall) if FS supports it.
-- **hardlink** — create hardlink to the source file instead of copying. 
-The best choice if source and target are in same partition for compatibility
-and resource usage, but we can't chmod target files, because of original file mode will 
-be changed too. 
-- **move** — moves original files to new place.
-- **symlink** — create a symlink at the target for the source files. 
+## Supported Formats
 
-## Supported formats
-At this moment supported jpeg and tiff files with filled exif data and any other 
-files but with names matching pattern `yyymmdd_HHMMSS.ext` with optional suffixes after a timestamp.
-Such names format applied by the Android's camera software (I guess all cams 
-use this format, fix me if I'm wrong). 
+- **JPEG and TIFF files** with valid EXIF metadata.
+- Files named in the format `yyyymmdd_HHMMSS.ext` (optionally with suffixes after the timestamp) (e.g., `20230101_123456.jpg`). This format is common in Android cameras and other devices.
 
-Jpeg/Tiff files without modification date if exif will be fallen back to the name parsing.
+If a file lacks EXIF data, the tool falls back to parsing the filename.
 
-No able to change names format without modifying source code for now. Just because 
-I have reasons to believe that this format is the most popular for the application use cases.
-But let me know if you need different timestamp formats support.
+Currently, the timestamp format is not customizable. Let me know if support for additional formats is required.
 
 ## Usage
-### One-shot 
-#### Copy files
+
+### One-Time Run
+
+#### Copy Files
 ```bash
-photocalog -mode copy -target ./photos/ -source ./sync/photos/
+photocatalog -mode copy -target ./photos/ -source ./sync/photos/
 ```
 
-#### Create hardlinks
+#### Create Hardlinks
 ```bash
-photocalog -mode hardlink -target ./photos/ -source ./sync/photos/
-```
-or 
-```bash
-photocalog -target ./photos/ -source ./sync/photos/*
+photocatalog -mode hardlink -target ./photos/ -source ./sync/photos/
 ```
 
-### Watch mode
-#### Copy files
+### Watch Mode
+
+Enable continuous monitoring of a source directory:
+
+#### Copy Files
 ```bash
-photocalog -mode copy -target ./photos -watch -source ./sync/photos/
+photocatalog -mode copy -target ./photos -watch -source ./sync/photos/
 ```
 
-#### Create hardlinks
+#### Create Hardlinks
 ```bash
-photocalog -mode hardlink -target ./photos/ -watch -source ./sync/photos/
-```
-or 
-```bash
-photocalog -target ./photos/ -watch -source ./sync/photos/
+photocatalog -mode hardlink -target ./photos/ -watch -source ./sync/photos/
 ```
 
-## Install and run monitor service
+## Running as a Service
 
-### Systemd
+### Systemd Setup
+
+Install and configure the service:
 ```bash
 sh ./init/install_service.sh systemd
 ```
-This command will install unit file, create stub for its config and open
-editor to allow you edit configuration. Config file stored at 
-`$HOME/.config/photocatalog`.
 
-Then enable and start service
+This will:
+
+1. Install a systemd unit file.
+2. Create a configuration stub at `$HOME/.config/photocatalog`.
+3. Open the config file for editing.
+
+Enable and start the service:
 ```bash
 systemctl --user enable --now photocatalog
 ```
-That's all. Now, if any file will be placed in directory, specified as `MONITOR`
-in config file, this file will be copied or hardlinked into the target dir
-under corresponding sub-dir. 
+
+Now, files added to the monitored directory (`MONITOR` in the config) will automatically be organized into the target directory under the corresponding subdirectories.
 
 ## FAQ
 
-### Why this tool was created if there is awesome XXX tool?
-I had two good reasons:
-1. I wish
-2. I can
-
+### Why did you create this tool when awesome tool XXX already exists?
+Two reasons:
+1. I wanted to.
+2. I could.
