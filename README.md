@@ -5,19 +5,13 @@ another, separating them in sub-directories like `$ROOT/year/month/day/`.
 
 ### TL;DR 
 
-I have a smartphone, I have a Syncthing ~~uugh... SmartThing~~ and all photos
-from smartphone nicely synced to my PC without my attention. But I can't just
-keep all photos in synced folder: if I'll clean my phone memory — all photos 
-from pc will be cleaned too. I need to not forget copy files in another 
-place before cleaning phone's memory. Also, I can't just drop all photos in 
-one dir — I will not find anything there later, and a folder with thousands 
-photos looks like a bad idea from either side.
-So I create this tool in one evening. All it does — copy (or create hardlinks for)
-files from one place to another, creating basic date-aware directories
-structure for that files.
+I use a smartphone along with Syncthing to seamlessly sync all my photos to my PC without any manual effort. However, there's a catch: I can't keep all my photos in the synced folder indefinitely. If I clear my phone's memory, the photos on my PC get deleted as well. To avoid this, I need to remember to copy the files to another location before cleaning up my phone.
 
-Created for own usage and used for a long time without any troubles. But if you meet some — 
-you are welcomed to the issues.
+Simply dumping all my photos into one folder isn't a solution either — finding anything later would be a nightmare, and a folder with thousands of unsorted photos is far from ideal.
+
+To address these issues, I created this tool in just one evening. Its primary purpose is to copy (or create hardlinks for) files from one location to another, while organizing them into a simple, date-based directory structure.
+
+This tool was built for personal use and has been serving me well for quite some time without any problems. However, if you encounter any issues, feel free to report them — I’d be happy to help.
 
 ## Installing
 ```bash
