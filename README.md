@@ -1,6 +1,6 @@
 [![Go](https://github.com/derfenix/photocatalog/actions/workflows/go.yml/badge.svg)](https://github.com/derfenix/photocatalog/actions/workflows/go.yml)
 
-# Simple photo cataloguer
+# Effortless Photo Organizer
 
 Just copy/hardlink photos (or video, or any other files) from one place to
 another, separating them in sub-directories like `$ROOT/year/month/day/`.
