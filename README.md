@@ -6,9 +6,10 @@ A simple tool to organize your photos, videos, or other files by copying or hard
 
 ## TL;DR
 
-I use a smartphone and Syncthing to automatically sync my photos to my PC. However, if I clean up my phone's memory, the synced photos on my PC are deleted as well. To avoid this, I needed a solution to back up and organize my photos without manual effort.
+I use a smartphone and Syncthing to automatically sync my photos to my PC. However, if I clean up my phone's memory, the synced photos on my PC are deleted as well.
+Dumping everything into one folder wasn't an option — finding anything later would be a nightmare. 
 
-Dumping everything into one folder wasn't an option — finding anything later would be a nightmare. So, I built this tool in one evening to solve the problem. It has worked flawlessly for me and might help you too. If you encounter any issues, feel free to open a ticket — I'll do my best to assist.
+To avoid this, I needed a solution to back up and organize my photos without manual effort. So, I built this tool in one evening to solve the problem. It has worked flawlessly for me and might help you too. If you encounter any issues, feel free to open a ticket — I'll do my best to assist.
 
 ## Installation
 
