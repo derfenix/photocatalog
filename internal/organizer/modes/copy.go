@@ -36,7 +36,7 @@ func (c Copy) PlaceIt(sourcePath, targetPath string, mode os.FileMode) error {
 
 	// Try to do a COW.
 	if runtime.GOOS == "linux" && !cowDisabled.Load() {
-		if err := unix.IoctlFileClone(int(targetFile.Fd()+1), int(sourceFile.Fd())); err == nil {
+		if err := unix.IoctlFileClone(int(targetFile.Fd()), int(sourceFile.Fd())); err == nil {
 			return nil
 		} else {
 			log.Println(fmt.Errorf("COW attempt for %s failed: %w", targetPath, err))
