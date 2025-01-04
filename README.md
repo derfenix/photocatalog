@@ -1,3 +1,5 @@
+[![Go](https://github.com/derfenix/photocatalog/actions/workflows/go.yml/badge.svg)](https://github.com/derfenix/photocatalog/actions/workflows/go.yml)
+
 # Simple photo cataloguer
 
 Just copy/hardlink photos (or video, or any other files) from one place to
