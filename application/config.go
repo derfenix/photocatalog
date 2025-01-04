@@ -15,13 +15,14 @@ const (
 )
 
 type Config struct {
-	SourceDir string
-	TargetDir string
-	Mode      Mode
-	Overwrite bool
-	DirMode   uint64
-	FileMode  uint64
-	Watch     bool
+	SourceDir    string
+	TargetDir    string
+	Mode         Mode
+	Overwrite    bool
+	DirMode      uint64
+	FileMode     uint64
+	Watch        bool
+	SkipFullSync bool
 }
 
 func (c *Config) Validate() error {
@@ -35,6 +36,10 @@ func (c *Config) Validate() error {
 
 	if !slices.Contains([]Mode{ModeHardlink, ModeSymlink, ModeMove, ModeCopy}, c.Mode) {
 		return fmt.Errorf("invalid mode %s", c.Mode)
+	}
+
+	if c.SkipFullSync && !c.Watch {
+		return fmt.Errorf("skip full sync and watch disabled — nothing to do")
 	}
 
 	return nil

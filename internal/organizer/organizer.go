@@ -17,6 +17,11 @@ import (
 	"github.com/derfenix/photocatalog/v2/internal/metadata"
 )
 
+const (
+	defaultDirMode  = 0o777
+	defaultFileMode = 0o644
+)
+
 type MetaExtractor interface {
 	Extract(_ string, data io.Reader) (metadata.Metadata, error)
 }
@@ -31,8 +36,8 @@ func NewOrganizer(mode Mode, source, target string) *Organizer {
 		sourceDir: source,
 		targetDir: target,
 
-		dirMode:  0777,
-		fileMode: 0644,
+		dirMode:  defaultDirMode,
+		fileMode: defaultFileMode,
 
 		metaExtractors: map[string]MetaExtractor{
 			"":     &metadata.Default{},

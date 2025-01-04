@@ -33,25 +33,18 @@ func main() {
 }
 
 func loadCfg() application.Config {
-	cfg := application.Config{
-		SourceDir: "",
-		TargetDir: "",
-		Mode:      "",
-		Overwrite: false,
-		DirMode:   0,
-		FileMode:  0,
-		Watch:     false,
-	}
+	cfg := application.Config{}
 
 	flag.StringVar(&cfg.SourceDir, "source", "", "Source directory")
 	flag.StringVar(&cfg.TargetDir, "target", "", "Target directory")
 	flag.BoolVar(&cfg.Overwrite, "overwrite", false, "Overwrite existing files")
-	flag.BoolVar(&cfg.Watch, "watch", false, "Watch for changes in the source directory")
+	flag.BoolVar(&cfg.Watch, "watch", true, "Watch for changes in the source directory")
+	flag.BoolVar(&cfg.SkipFullSync, "skip-full-sync", false, "Skip full sync at startup")
 
 	var dirMode string
 	var fileMode string
-	flag.StringVar(&dirMode, "dirmode", "0777", "Mode bits for directories can be created while syncing")
-	flag.StringVar(&fileMode, "filemode", "0644", "Mode bits for files created while syncing (not applicable for hardlink mode)")
+	flag.StringVar(&dirMode, "dir-mode", "0777", "Mode bits for directories can be created while syncing")
+	flag.StringVar(&fileMode, "file-mode", "0644", "Mode bits for files created while syncing (not applicable for hardlink mode)")
 
 	var mode string
 	flag.StringVar(&mode, "mode", "hardlink", "Mode")
