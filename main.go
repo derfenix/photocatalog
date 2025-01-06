@@ -41,13 +41,15 @@ func loadCfg() application.Config {
 	flag.BoolVar(&cfg.Watch, "watch", true, "Watch for changes in the source directory")
 	flag.BoolVar(&cfg.SkipFullSync, "skip-full-sync", false, "Skip full sync at startup")
 
-	var dirMode string
-	var fileMode string
+	var (
+		dirMode  string
+		fileMode string
+		mode     string
+	)
+
 	flag.StringVar(&dirMode, "dir-mode", "0777", "Mode bits for directories can be created while syncing")
 	flag.StringVar(&fileMode, "file-mode", "0644", "Mode bits for files created while syncing (not applicable for hardlink mode)")
-
-	var mode string
-	flag.StringVar(&mode, "mode", "hardlink", "Mode")
+	flag.StringVar(&mode, "mode", "hardlink", "Organizing mode")
 
 	flag.Parse()
 
@@ -57,11 +59,15 @@ func loadCfg() application.Config {
 
 	cfg.DirMode, err = strconv.ParseUint(dirMode, 8, 32)
 	if err != nil {
+		log.Println("Parse -dir-mode failed:", err)
+
 		cfg.DirMode = 0o777
 	}
 
 	cfg.FileMode, err = strconv.ParseUint(fileMode, 8, 32)
 	if err != nil {
+		log.Println("Parse -file-mode failed:", err)
+
 		cfg.DirMode = 0o644
 	}
 

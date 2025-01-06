@@ -46,13 +46,13 @@ Currently, the timestamp format is not customizable. Let me know if support for 
 ## Usage
 
 Arguments
-```shell
+```
   -dir-mode string
         Mode bits for directories can be created while syncing (default "0777")
   -file-mode string
         Mode bits for files created while syncing (not applicable for hardlink mode) (default "0644")
   -mode string
-        Mode (default "hardlink")
+        Organazing mode (default "hardlink")
   -overwrite
         Overwrite existing files
   -skip-full-sync

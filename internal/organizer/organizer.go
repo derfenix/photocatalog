@@ -180,7 +180,9 @@ func (o *Organizer) FullSync(ctx context.Context) error {
 		}
 
 		if err := o.processFile(path); err != nil {
-			return err
+			log.Printf("Process file `%s` failed: %s", path, err.Error())
+
+			return nil
 		}
 
 		return nil
@@ -203,7 +205,7 @@ func (o *Organizer) getMetaForPath(fp string) (metadata.Metadata, error) {
 
 	meta, err := o.getMetadata(fp, file)
 	if err != nil {
-		return metadata.Metadata{}, fmt.Errorf("get metadata: %w", err)
+		return metadata.Metadata{}, fmt.Errorf("get metadatas: %w", err)
 	}
 
 	return meta, nil
