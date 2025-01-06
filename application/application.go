@@ -43,7 +43,7 @@ func (a *Application) Start(ctx context.Context, wg *sync.WaitGroup) error {
 		WithDirMode(os.FileMode(a.config.DirMode)).
 		WithFileMode(os.FileMode(a.config.FileMode)).
 		WithErrLogger(func(err error) {
-			log.Println(err)
+			log.Println("ERROR:", err.Error())
 		})
 
 	if a.config.Overwrite {

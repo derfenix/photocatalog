@@ -149,7 +149,7 @@ func (o *Organizer) Watch(ctx context.Context, wg *sync.WaitGroup) error {
 					// Add new directories to the watcher.
 					if stat.IsDir() {
 						if err := watcher.Add(event.Name); err != nil {
-							o.logErr(fmt.Errorf("watch dir: %w", err))
+							o.logErr(fmt.Errorf("add the directory %s to watcher: %w", event.Name, err))
 						}
 
 						continue
@@ -248,7 +248,7 @@ func (o *Organizer) processFile(sourcePath string) error {
 		return fmt.Errorf("build target path: %w", err)
 	}
 
-	if pathExists(targetPath) && !o.overwrite {
+	if o.pathExists(targetPath) && !o.overwrite {
 		return nil
 	}
 
@@ -283,7 +283,7 @@ func (o *Organizer) BuildTargetPath(sourcePath string, meta metadata.Metadata) (
 }
 
 func (o *Organizer) ensureTargetPath(targetPath string) error {
-	if pathExists(targetPath) {
+	if o.pathExists(targetPath) {
 		return nil
 	}
 
@@ -305,12 +305,14 @@ func (o *Organizer) ensureTargetPath(targetPath string) error {
 	return nil
 }
 
-func pathExists(path string) bool {
+func (o *Organizer) pathExists(path string) bool {
 	_, err := os.Stat(path)
 	if err != nil {
 		if os.IsNotExist(err) {
 			return false
 		}
+
+		o.logErr(fmt.Errorf("pathExists stat %s: %w", path, err))
 
 		return true
 	}
