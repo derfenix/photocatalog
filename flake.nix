@@ -91,13 +91,13 @@
                 path = [
                   self.packages.${pkgs.system}.photocatalog
                 ];
-                preStart = lib.mkIf (!sync.skipFullSync) [
-                  "mkdir -p ${sync.target}"
-                  "photocatalog -source ${sync.source} -target ${sync.target}"
-                ];
-                script = [
-                  "photocatalog -source ${sync.source} -target ${sync.target} -skip-full-sync -watch"
-                ];
+                preStart = lib.mkIf (!sync.skipFullSync) """
+                  mkdir -p ${sync.target}
+                  photocatalog -source ${sync.source} -target ${sync.target}
+                """;
+                script = """
+                  photocatalog -source ${sync.source} -target ${sync.target} -skip-full-sync -watch
+                """;
             }
           ) config.photocatalog.syncs;
         };
