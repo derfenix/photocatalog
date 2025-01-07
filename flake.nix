@@ -41,6 +41,7 @@
 
             };
             type = types.attrsOf (types.submodule ({ name, ... }: {
+#              freeformType = settingsFormat.type;
               options = {
                 source = mkOption {
                   type = types.str;
@@ -82,23 +83,26 @@
         };
 
         config = lib.mkIf config.photocatalog.enable {
-          environment.systemPackages = [ self.packages.${pkgs.system}.photocatalog ];
-          systemd.services = lib.mapAttrs' (name: sync: {
-            after = [ "local-fs.target" ];
-            path = [
-              pkgs.photocatalog
-            ];
-            preStart = if !sync.skipFullSync then ''
-              mkdir -p ${sync.target}
-              photocatalog -source ${sync.source} -target ${sync.target}
-            '' else null;
-            script = "photocatalog";
-            scriptArgs = "-source ${sync.source} -target ${sync.target} -skip-full-sync -watch";
-            serviceConfig = {
-              Type = "simple";
-              Restart = "no";
-            };
-          }) config.photocatalog.syncs;
+          environment.systemPackages = [ pkgs.photocatalog ];
+          systemd.services = lib.mapAttrs' (name: sync: nameValuePair ("photocatalog${lib.replaceStrings ["/"] ["-"] sync.source}")
+            {
+#                name = "photocatalog${lib.replaceStrings ["/"] ["-"] sync.source}";
+                after = [ "local-fs.target" ];
+                path = [
+                  pkgs.photocatalog
+                ];
+                preStart = if !sync.skipFullSync then ''
+                  mkdir -p ${sync.target}
+                  photocatalog -source ${sync.source} -target ${sync.target}
+                '' else null;
+                script = "photocatalog";
+                scriptArgs = "-source ${sync.source} -target ${sync.target} -skip-full-sync -watch";
+                serviceConfig = {
+                  Type="simple";
+                  Restart="no";
+                };
+            }
+          ) config.photocatalog.syncs;
         };
       };
 
