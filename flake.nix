@@ -86,20 +86,18 @@
           environment.systemPackages = [ self.packages.${pkgs.system}.photocatalog ];
           systemd.services = lib.genAttrs config.photocatalog (sync:
             {
-              ${sync.name} = {
-                name = "photocatalog_${sync.name}";
-                after = [ "local-fs.target" ];
-                path = [
-                  self.packages.${pkgs.system}.photocatalog
-                ];
-                preStart = lib.mkIf (!sync.skipFullSync) [
-                  "mkdir -p ${sync.target}"
-                  "photocatalog -source ${sync.source} -target ${sync.target}"
-                ];
-                script = [
-                  "photocatalog -source ${sync.source} -target ${sync.target} -skip-full-sync -watch"
-                ];
-              };
+              name = "photocatalog_${sync.name}";
+              after = [ "local-fs.target" ];
+              path = [
+                self.packages.${pkgs.system}.photocatalog
+              ];
+              preStart = lib.mkIf (!sync.skipFullSync) [
+                "mkdir -p ${sync.target}"
+                "photocatalog -source ${sync.source} -target ${sync.target}"
+              ];
+              script = [
+                "photocatalog -source ${sync.source} -target ${sync.target} -skip-full-sync -watch"
+              ];
             }
           );
         };
