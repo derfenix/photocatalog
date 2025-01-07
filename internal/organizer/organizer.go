@@ -243,8 +243,6 @@ func (o *Organizer) getMetadata(fp string, data io.Reader) (metadata.Metadata, e
 }
 
 func (o *Organizer) processFile(sourcePath string) error {
-	fmt.Printf("%s %d %o\n", o.fileMode, o.fileMode, o.fileMode)
-
 	meta, err := o.getMetaForPath(sourcePath)
 	if err != nil {
 		return err
