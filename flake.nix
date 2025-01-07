@@ -91,12 +91,15 @@
 
         config = lib.mkIf config.photocatalog.enable {
           environment.systemPackages = [ self.packages.${pkgs.system}.photocatalog ];
-          systemd.services = lib.mapAttrs' (name: sync: nameValuePair ("photocatalog${lib.replaceStrings ["/"] ["-"] sync.source}")
+          systemd.user.services = lib.mapAttrs' (name: sync: nameValuePair
+            ("photocatalog${lib.replaceStrings ["/"] ["-"] sync.source}")
             {
-#                name = "photocatalog${lib.replaceStrings ["/"] ["-"] sync.source}";
                 after = [ "local-fs.target" ];
                 path = [
                   self.packages.${pkgs.system}.photocatalog
+                ];
+                wantedBy = [
+                  "default.target"
                 ];
                 preStart = if !sync.skipFullSync then ''
                   mkdir -p ${sync.target}
