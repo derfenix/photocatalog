@@ -14,6 +14,8 @@ const (
 	ModeMove     Mode = "move"
 )
 
+var supportedModes = []Mode{ModeHardlink, ModeSymlink, ModeMove, ModeCopy}
+
 type Config struct {
 	SourceDir    string
 	TargetDir    string
@@ -34,8 +36,8 @@ func (c *Config) Validate() error {
 		return fmt.Errorf("target dir is required")
 	}
 
-	if !slices.Contains([]Mode{ModeHardlink, ModeSymlink, ModeMove, ModeCopy}, c.Mode) {
-		return fmt.Errorf("invalid mode %s", c.Mode)
+	if !slices.Contains(supportedModes, c.Mode) {
+		return fmt.Errorf("invalid mode %s, supported modes: %s", c.Mode, supportedModes)
 	}
 
 	if c.SkipFullSync && !c.Watch {

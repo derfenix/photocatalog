@@ -38,7 +38,7 @@ func loadCfg() application.Config {
 	flag.StringVar(&cfg.SourceDir, "source", "", "Source directory")
 	flag.StringVar(&cfg.TargetDir, "target", "", "Target directory")
 	flag.BoolVar(&cfg.Overwrite, "overwrite", false, "Overwrite existing files")
-	flag.BoolVar(&cfg.Watch, "watch", true, "Watch for changes in the source directory")
+	flag.BoolVar(&cfg.Watch, "watch", false, "Watch for changes in the source directory")
 	flag.BoolVar(&cfg.SkipFullSync, "skip-full-sync", false, "Skip full sync at startup")
 
 	var (
