@@ -89,7 +89,7 @@
 #                name = "photocatalog${lib.replaceStrings ["/"] ["-"] sync.source}";
                 after = [ "local-fs.target" ];
                 path = [
-                  pkgs.photocatalog
+                  packages.photocatalog
                 ];
                 preStart = if !sync.skipFullSync then ''
                   mkdir -p ${sync.target}
