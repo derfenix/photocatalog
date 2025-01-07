@@ -35,7 +35,10 @@ func main() {
 }
 
 func loadCfg() application.Config {
-	cfg := application.Config{}
+	cfg := application.Config{
+		DirMode:  0774,
+		FileMode: 0644,
+	}
 
 	flag.StringVar(&cfg.SourceDir, "source", "", "Source directory")
 	flag.StringVar(&cfg.TargetDir, "target", "", "Target directory")

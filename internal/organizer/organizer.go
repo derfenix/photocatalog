@@ -19,7 +19,7 @@ import (
 )
 
 const (
-	defaultDirMode  = 0o777
+	defaultDirMode  = 0o774
 	defaultFileMode = 0o644
 )
 
