@@ -86,7 +86,7 @@
           environment.systemPackages = [ self.packages.${pkgs.system}.photocatalog ];
           systemd.services = lib.mapAttrs (_: sync:
             {
-                name = "photocatalog_x";
+                name = "photocatalog_${lib.replaceChars ["/"] ["-"] sync.source}";
                 after = [ "local-fs.target" ];
                 path = [
                   pkgs.photocatalog
@@ -97,6 +97,10 @@
                 '' else null;
                 script = "photocatalog";
                 scriptArgs = "-source ${sync.source} -target ${sync.target} -skip-full-sync -watch";
+                serviceConfig = ''
+                Type=oneshot
+                Restart=no
+                '';
             }
           ) config.photocatalog.syncs;
         };
