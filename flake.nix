@@ -87,7 +87,7 @@
           systemd.services = lib.mapAttrs (_: sync:
             {
               ${sync.source} = {
-                name = "photocatalog_${sync.source}";
+#                name = "photocatalog_${sync.source}";
                 after = [ "local-fs.target" ];
                 path = [
                   self.packages.${pkgs.system}.photocatalog
