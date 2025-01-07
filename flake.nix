@@ -87,7 +87,7 @@
           systemd.services = lib.mapAttrs (_: sync:
             {
                 name = "photocatalog_${lib.replaceChars ["/"] ["-"] sync.source}";
-                after = [ "local-fs.target" ];
+#                after = [ "local-fs.target" ];
                 path = [
                   pkgs.photocatalog
                 ];
