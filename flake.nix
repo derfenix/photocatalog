@@ -88,13 +88,13 @@
             {
                 name = "photocatalog_${lib.replaceChars ["/"] ["-"] sync.source}";
                 after = [ "local-fs.target" ];
-#                path = [
-#                  pkgs.photocatalog
-#                ];
-                preStart = if !sync.skipFullSync then ''
-                  mkdir -p ${sync.target}
-                  photocatalog -source ${sync.source} -target ${sync.target}
-                '' else null;
+                path = [
+                  pkgs.photocatalog
+                ];
+#                preStart = if !sync.skipFullSync then ''
+#                  mkdir -p ${sync.target}
+#                  photocatalog -source ${sync.source} -target ${sync.target}
+#                '' else null;
                 script = "photocatalog";
                 scriptArgs = "-source ${sync.source} -target ${sync.target} -skip-full-sync -watch";
             }
