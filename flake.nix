@@ -97,10 +97,10 @@
                 '' else null;
                 script = "photocatalog";
                 scriptArgs = "-source ${sync.source} -target ${sync.target} -skip-full-sync -watch";
-                serviceConfig = ''
-                Type=oneshot
-                Restart=no
-                '';
+                serviceConfig = {
+                  Type=oneshot;
+                  Restart=no;
+                };
             }
           ) config.photocatalog.syncs;
         };
