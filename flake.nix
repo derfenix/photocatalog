@@ -31,7 +31,7 @@
           };
 
           config = lib.mkIf config.photocatalog.enable {
-            environment.systemPackages = [ self.photocatalog ];
+            environment.systemPackages = [ self.packages.${pkgs.system}.photocatalog ];
           };
         };
 
