@@ -98,7 +98,7 @@
                 script = "photocatalog";
                 scriptArgs = "-source ${sync.source} -target ${sync.target} -skip-full-sync -watch";
                 serviceConfig = {
-                  Type=oneshot;
+                  Type="oneshot";
                   Restart=no;
                 };
             }
