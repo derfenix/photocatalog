@@ -84,7 +84,7 @@
 
         config = lib.mkIf config.photocatalog.enable {
           environment.systemPackages = [ self.packages.${pkgs.system}.photocatalog ];
-          systemd.services = lib.attrValues config.photocatalog.syncs (sync:
+          systemd.services = lib.attrVals config.photocatalog.syncs (sync:
             {
               ${sync.name} = {
                 name = "photocatalog_${sync.name}";
