@@ -91,13 +91,13 @@
                 path = [
                   pkgs.photocatalog
                 ];
-                preStart = if !sync.skipFullSync then """
+                preStart = if !sync.skipFullSync then ''
                   mkdir -p ${sync.target}
                   photocatalog -source ${sync.source} -target ${sync.target}
-                """ else null;
-                script = """
+                '' else null;
+                script = ''
                   photocatalog -source ${sync.source} -target ${sync.target} -skip-full-sync -watch
-                """;
+                '';
             }
           ) config.photocatalog.syncs;
         };
