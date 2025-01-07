@@ -77,7 +77,7 @@
                   '';
                 };
                 mode = mkOption {
-                  type = types.str;
+                  type = types.enum [ "hardlink" "symlink" "move" "copy" ];
                   default = "hardlink";
                   description = ''
                     Organization mode, one of [ hardlink symlink move copy ].
