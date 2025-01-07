@@ -30,7 +30,8 @@ sudo cp ${GOPATH}/bin/photocatalog /usr/local/bin/photocatalog
 The tool supports the following organization modes:
 
 - **copy** — Copies files to the target directory. If the filesystem supports it, uses Copy-on-Write (COW) for efficiency (via FICLONE ioctl call).
-- **hardlink** — Creates hardlinks to the source files, saving disk space. Ideal if the source and target are on the same partition, though file permissions remain linked to the original.
+- **hardlink** — Creates hardlinks to the source files, saving disk space. Ideal (and usable only) if the source and target are on the same partition, 
+though file permissions remain linked to the original. Fallback to copy on fail.
 - **move** — Moves files from the source to the target directory.
 - **symlink** — Creates symbolic links at the target pointing to the source files.
 

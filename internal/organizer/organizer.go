@@ -11,6 +11,7 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	"syscall"
 
 	"github.com/fsnotify/fsnotify"
 
@@ -130,6 +131,8 @@ func (o *Organizer) Watch(ctx context.Context, wg *sync.WaitGroup) error {
 		if err := watcher.Close(); err != nil {
 			o.logErr(fmt.Errorf("close watcher: %w", err))
 		}
+
+		syscall.Sync()
 	}()
 
 	go func() {
@@ -155,9 +158,11 @@ func (o *Organizer) Watch(ctx context.Context, wg *sync.WaitGroup) error {
 						continue
 					}
 
-					if err := o.processFile(event.Name); err != nil {
-						o.logErr(fmt.Errorf("process file %s: %w", event.Name, err))
-					}
+					go func() {
+						if err := o.processFile(event.Name); err != nil {
+							o.logErr(fmt.Errorf("process file %s: %w", event.Name, err))
+						}
+					}()
 				}
 
 			case <-ctx.Done():
