@@ -50,15 +50,15 @@ func (a *Application) Start(ctx context.Context, wg *sync.WaitGroup) error {
 		org = org.WithOverwrite()
 	}
 
-	if !a.config.SkipFullSync {
-		if err := org.FullSync(ctx); err != nil {
-			return fmt.Errorf("full sync: %w", err)
-		}
-	}
-
 	if a.config.Watch {
 		if err := org.Watch(ctx, wg); err != nil {
 			return fmt.Errorf("initialize watch: %w", err)
+		}
+	}
+
+	if !a.config.SkipFullSync {
+		if err := org.FullSync(ctx); err != nil {
+			return fmt.Errorf("full sync: %w", err)
 		}
 	}
 

@@ -13,9 +13,7 @@ type HardLink struct {
 
 func (h HardLink) PlaceIt(sourcePath, targetPath string, mode os.FileMode) error {
 	if hardLinkNotSupported.Load() {
-		if copyErr := (Copy{}).PlaceIt(sourcePath, targetPath, mode); copyErr != nil {
-			return copyErr
-		}
+		return h.fallBack(sourcePath, targetPath, mode)
 	}
 
 	if err := os.Link(sourcePath, targetPath); err != nil {
@@ -26,12 +24,15 @@ func (h HardLink) PlaceIt(sourcePath, targetPath string, mode os.FileMode) error
 		log.Println("Create hardlink failed:", err.Error())
 		hardLinkNotSupported.Store(true)
 
-		if copyErr := (Copy{}).PlaceIt(sourcePath, targetPath, mode); copyErr != nil {
-			return copyErr
-		}
-
-		return nil
+		return h.fallBack(sourcePath, targetPath, mode)
 	}
 
+	return nil
+}
+
+func (h HardLink) fallBack(sourcePath string, targetPath string, mode os.FileMode) error {
+	if copyErr := (Copy{}).PlaceIt(sourcePath, targetPath, mode); copyErr != nil {
+		return copyErr
+	}
 	return nil
 }
