@@ -243,6 +243,8 @@ func (o *Organizer) getMetadata(fp string, data io.Reader) (metadata.Metadata, e
 }
 
 func (o *Organizer) processFile(sourcePath string) error {
+	fmt.Printf("%s %d %o\n", o.fileMode, o.fileMode, o.fileMode)
+
 	meta, err := o.getMetaForPath(sourcePath)
 	if err != nil {
 		return err
@@ -302,8 +304,12 @@ func (o *Organizer) ensureTargetPath(targetPath string) error {
 	for _, part := range strings.Split(relPath, string(filepath.Separator)) {
 		dir = filepath.Join(dir, part)
 
-		if err := os.Mkdir(dir, o.dirMode); err != nil && !os.IsExist(err) {
+		if err := os.Mkdir(dir, os.ModePerm); err != nil && !os.IsExist(err) {
 			return fmt.Errorf("create target directory path at %s: %w", dir, err)
+		}
+
+		if err := os.Chmod(dir, os.ModePerm&o.dirMode); err != nil {
+			return fmt.Errorf("chmod directory %s: %w", dir, err)
 		}
 	}
 
