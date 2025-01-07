@@ -83,13 +83,13 @@
         };
 
         config = lib.mkIf config.photocatalog.enable {
-          environment.systemPackages = [ pkgs.photocatalog ];
+          environment.systemPackages = [ self.packages.${pkgs.system}.photocatalog ];
           systemd.services = lib.mapAttrs' (name: sync: nameValuePair ("photocatalog${lib.replaceStrings ["/"] ["-"] sync.source}")
             {
 #                name = "photocatalog${lib.replaceStrings ["/"] ["-"] sync.source}";
                 after = [ "local-fs.target" ];
                 path = [
-                  pkgs.photocatalog
+                  self.packages.${pkgs.system}.photocatalog
                 ];
                 preStart = if !sync.skipFullSync then ''
                   mkdir -p ${sync.target}
