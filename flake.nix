@@ -100,7 +100,7 @@
                 ];
                 preStart = if !sync.skipFullSync then ''
                   mkdir -p ${sync.target}
-                  photocatalog -source ${sync.source} -target ${sync.target}
+                  photocatalog -source ${sync.source} -target ${sync.target} -mode ${sync.mode}
                 '' else null;
                 script = "photocatalog -source ${sync.source} -target ${sync.target} -skip-full-sync -watch -mode ${sync.mode}";
                 serviceConfig = {
