@@ -26,7 +26,9 @@
         }
       );
 
-      nixosModules.photocatalog = { config, lib, pkgs, ... }: {
+      nixosModules.photocatalog = { config, lib, pkgs, ... }:
+        with lib;
+      {
         options.photocatalog = {
           enable = lib.mkEnableOption "Enable photocatalog";
 
