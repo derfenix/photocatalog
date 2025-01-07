@@ -1,7 +1,7 @@
 {
   description = "Photo/video organization tool";
 
-  inputs.nixpkgs.url = "nixpkgs/nixos-24.11";
+  inputs.nixpkgs.url = "<nixpkgs/nixos>";
 
   outputs = { self, nixpkgs }:
     let
