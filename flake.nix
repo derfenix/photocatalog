@@ -99,7 +99,7 @@
                 scriptArgs = "-source ${sync.source} -target ${sync.target} -skip-full-sync -watch";
                 serviceConfig = {
                   Type="oneshot";
-                  Restart=no;
+                  Restart="no";
                 };
             }
           ) config.photocatalog.syncs;
