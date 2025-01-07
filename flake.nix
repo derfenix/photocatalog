@@ -102,7 +102,7 @@
                 ];
                 preStart = if !sync.skipFullSync then (''
                   mkdir -p ${sync.target}
-                  photocatalog -source ${sync.source} -target ${sync.target} -mode ${sync.mode} ${lib.mkIf sync.overwrite "-overwrite"}
+                  photocatalog -source ${sync.source} -target ${sync.target} -mode ${sync.mode} ${if sync.overwrite then "-overwrite" else ""}
                 '') else null;
                 script = "photocatalog -source ${sync.source} -target ${sync.target} -skip-full-sync -watch -mode ${sync.mode}" ++ lib.mkIf sync.overwrite "-overwrite";
                 serviceConfig = {
