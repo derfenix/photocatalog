@@ -3,8 +3,10 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
 	"log"
 	"os/signal"
+	"slices"
 	"strconv"
 	"sync"
 	"syscall"
@@ -39,36 +41,48 @@ func loadCfg() application.Config {
 	flag.StringVar(&cfg.TargetDir, "target", "", "Target directory")
 	flag.BoolVar(&cfg.Overwrite, "overwrite", false, "Overwrite existing files")
 	flag.BoolVar(&cfg.Watch, "watch", false, "Watch for changes in the source directory")
+	flag.BoolVar(&cfg.Watch, "monitor", false, "Watch for changes in the source directory") // Legacy option
 	flag.BoolVar(&cfg.SkipFullSync, "skip-full-sync", false, "Skip full sync at startup")
 
-	var (
-		dirMode  string
-		fileMode string
-		mode     string
-	)
+	flag.Func("dir-mode", "Mode bits for directories can be created while syncing", func(s string) error {
+		var err error
 
-	flag.StringVar(&dirMode, "dir-mode", "0777", "Mode bits for directories can be created while syncing")
-	flag.StringVar(&fileMode, "file-mode", "0644", "Mode bits for files created while syncing (not applicable for hardlink mode)")
-	flag.StringVar(&mode, "mode", "hardlink", "Organizing mode")
+		cfg.DirMode, err = strconv.ParseUint(s, 8, 32)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	})
+
+	flag.Func("file-mode", "Mode bits for files created while syncing (not applicable for hardlink mode)", func(s string) error {
+		var err error
+
+		cfg.FileMode, err = strconv.ParseUint(s, 8, 32)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	})
+
+	flag.Func("mode", "Organizing mode", func(s string) error {
+		cfg.Mode = application.Mode(s)
+
+		if !slices.Contains(application.SupportedModes, cfg.Mode) {
+			return fmt.Errorf("invalid mode, supported modes: %s", application.SupportedModes)
+		}
+
+		return nil
+	})
 
 	flag.Parse()
 
-	cfg.Mode = application.Mode(mode)
+	// Legacy fallback
+	if cfg.SourceDir == "" {
+		log.Println("Source directory not specified. May be using old systemd unit file.")
 
-	var err error
-
-	cfg.DirMode, err = strconv.ParseUint(dirMode, 8, 32)
-	if err != nil {
-		log.Println("Parse -dir-mode failed:", err)
-
-		cfg.DirMode = 0o777
-	}
-
-	cfg.FileMode, err = strconv.ParseUint(fileMode, 8, 32)
-	if err != nil {
-		log.Println("Parse -file-mode failed:", err)
-
-		cfg.DirMode = 0o644
+		cfg.SourceDir = flag.Arg(0)
 	}
 
 	return cfg

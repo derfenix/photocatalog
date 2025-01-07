@@ -7,5 +7,5 @@ WantedBy=default.target
 [Service]
 Type=simple
 EnvironmentFile=/home/%u/.config/photocatalog
-ExecStart=photocatalog -mode $MODE -target $TARGET -monitor $MONITOR -update_mtime $UPDATECTIME
-ExecStartPre=photocatalog -mode $MODE -target $TARGET ${MONITOR}
+ExecStart=photocatalog -mode $MODE -target $TARGET -watch -source $MONITOR -skip-full-sync
+ExecStartPre=photocatalog -mode $MODE -target $TARGET -source ${MONITOR}
