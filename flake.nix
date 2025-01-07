@@ -102,7 +102,7 @@
                 ];
                 preStart = ''
                   mkdir -p ${sync.target}
-                '' ++ (if !sync.skipFullSync then (''
+                '' + (if !sync.skipFullSync then (''
                   photocatalog -source ${sync.source} -target ${sync.target} -mode ${sync.mode} ${if sync.overwrite then "-overwrite" else ""}
                 '') else null);
                 script = "photocatalog -source ${sync.source} -target ${sync.target} -skip-full-sync -watch -mode ${sync.mode} ${if sync.overwrite then "-overwrite" else ""}";
