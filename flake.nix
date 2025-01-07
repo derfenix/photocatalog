@@ -6,7 +6,7 @@
   outputs = { self, nixpkgs }:
     let
       lastModifiedDate = self.lastModifiedDate or self.lastModified or "19700101";
-      version = "2.0.2";
+      version = "2.0.4";
       supportedSystems = [ "x86_64-linux" "x86_64-darwin" "aarch64-linux" "aarch64-darwin" ];
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
       nixpkgsFor = forAllSystems (system: import nixpkgs { inherit system; });
@@ -100,11 +100,11 @@
                 wantedBy = [
                   "default.target"
                 ];
-                preStart = if !sync.skipFullSync then ''
+                preStart = if !sync.skipFullSync then (''
                   mkdir -p ${sync.target}
                   photocatalog -source ${sync.source} -target ${sync.target} -mode ${sync.mode}
-                '' else null;
-                script = "photocatalog -source ${sync.source} -target ${sync.target} -skip-full-sync -watch -mode ${sync.mode}";
+                '' ++ lib.mkIf sync.overwrite "-overwrite") else null;
+                script = "photocatalog -source ${sync.source} -target ${sync.target} -skip-full-sync -watch -mode ${sync.mode}" ++ lib.mkIf sync.overwrite "-overwrite";
                 serviceConfig = {
                   Type="simple";
                   Restart="no";
