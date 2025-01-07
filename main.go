@@ -67,6 +67,9 @@ func loadCfg() application.Config {
 	})
 
 	flag.Func("mode", "Organizing mode", func(s string) error {
+		if s == "" {
+			cfg.Mode = application.ModeHardlink
+		}
 
 		cfg.Mode = application.Mode(s)
 
