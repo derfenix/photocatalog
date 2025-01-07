@@ -104,7 +104,7 @@
                   mkdir -p ${sync.target}
                   photocatalog -source ${sync.source} -target ${sync.target} -mode ${sync.mode} ${if sync.overwrite then "-overwrite" else ""}
                 '') else null;
-                script = "photocatalog -source ${sync.source} -target ${sync.target} -skip-full-sync -watch -mode ${sync.mode}" ++ lib.mkIf sync.overwrite "-overwrite";
+                script = "photocatalog -source ${sync.source} -target ${sync.target} -skip-full-sync -watch -mode ${sync.mode} ${if sync.overwrite then "-overwrite" else ""}";
                 serviceConfig = {
                   Type="simple";
                   Restart="no";
