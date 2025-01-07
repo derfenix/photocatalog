@@ -86,15 +86,15 @@
           environment.systemPackages = [ self.packages.${pkgs.system}.photocatalog ];
           systemd.services = lib.mapAttrs (_: sync:
             {
-                name = "photocatalog_${sync.source}";
+                name = "photocatalog_${lib.replaceChars ["/"] ["-"] sync.source}";
                 after = [ "local-fs.target" ];
                 path = [
-                  self.packages.${pkgs.system}.photocatalog
+                  pkgs.photocatalog
                 ];
-                preStart = lib.mkIf (!sync.skipFullSync) """
+                preStart = if !sync.skipFullSync then """
                   mkdir -p ${sync.target}
                   photocatalog -source ${sync.source} -target ${sync.target}
-                """;
+                """ else null;
                 script = """
                   photocatalog -source ${sync.source} -target ${sync.target} -skip-full-sync -watch
                 """;
