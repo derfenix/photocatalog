@@ -77,6 +77,13 @@
                     Do not make full sync.
                   '';
                 };
+                mode = mkOption {
+                  type = types.str;
+                  default = "hardlink";
+                  description = ''
+                    Organization mode, one of [ hardlink symlink move copy ].
+                  '';
+                };
               };
             }));
           };
@@ -95,8 +102,7 @@
                   mkdir -p ${sync.target}
                   photocatalog -source ${sync.source} -target ${sync.target}
                 '' else null;
-                script = "photocatalog";
-                scriptArgs = "-source ${sync.source} -target ${sync.target} -skip-full-sync -watch";
+                script = "photocatalog -source ${sync.source} -target ${sync.target} -skip-full-sync -watch -mode ${sync.mode}";
                 serviceConfig = {
                   Type="simple";
                   Restart="no";
