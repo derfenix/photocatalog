@@ -86,7 +86,7 @@
           environment.systemPackages = [ self.packages.${pkgs.system}.photocatalog ];
           systemd.services = lib.mapAttrs' (name: sync: nameValuePair ("photocatalog${lib.replaceStrings ["/"] ["-"] sync.source}")
             {
-                name = "photocatalog${lib.replaceStrings ["/"] ["-"] sync.source}";
+#                name = "photocatalog${lib.replaceStrings ["/"] ["-"] sync.source}";
                 after = [ "local-fs.target" ];
                 path = [
                   pkgs.photocatalog
