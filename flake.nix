@@ -95,7 +95,7 @@
                   mkdir -p ${sync.target}
                   photocatalog -source ${sync.source} -target ${sync.target}
                 '' else null;
-                script = photocatalog;
+                script = "photocatalog";
                 scriptArgs = "-source ${sync.source} -target ${sync.target} -skip-full-sync -watch";
             }
           ) config.photocatalog.syncs;
