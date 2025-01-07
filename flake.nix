@@ -87,10 +87,10 @@
           systemd.services = lib.mapAttrs (_: sync:
             {
                 name = "photocatalog_${lib.replaceChars ["/"] ["-"] sync.source}";
-#                after = [ "local-fs.target" ];
-                path = [
-                  pkgs.photocatalog
-                ];
+                after = [ "local-fs.target" ];
+#                path = [
+#                  pkgs.photocatalog
+#                ];
                 preStart = if !sync.skipFullSync then ''
                   mkdir -p ${sync.target}
                   photocatalog -source ${sync.source} -target ${sync.target}
