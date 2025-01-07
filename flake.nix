@@ -86,8 +86,8 @@
           environment.systemPackages = [ self.packages.${pkgs.system}.photocatalog ];
           systemd.services = lib.genAttrs (lib.attrValues config.photocatalog.syncs) (sync:
             {
-              ${sync.name} = {
-                name = "photocatalog_${sync.name}";
+              ${sync.source} = {
+                name = "photocatalog_${sync.source}";
                 after = [ "local-fs.target" ];
                 path = [
                   self.packages.${pkgs.system}.photocatalog
