@@ -41,7 +41,7 @@
 
             };
             type = types.attrsOf (types.submodule ({ name, ... }: {
-              freeformType = settingsFormat.type;
+#              freeformType = settingsFormat.type;
               options = {
                 source = mkOption {
                   type = types.str;
